@@ -1,13 +1,11 @@
-FROM alpine:3.6
+FROM heroku/heroku:20
 
-ENV VER=2.11.1 METHOD=chacha20 PASSWORD=ss123456
 ENV TLS_PORT=4433 PORT=8080
 
-RUN apk add --no-cache curl \
-  && curl -sL http://github.com/ginuerzh/gost/releases/download/v${VER}/gost-linux-amd64-${VER}.gz | gzip -d \
-  && chmod a+x gost
+RUN curl -sSL http://github.com/ginuerzh/gost/releases/download/v2.11.1/gost-linux-amd64-2.11.1.gz | zcat > /bin/gost
+RUN chmod +x /bin/gost
+RUN useradd -m heroku
+USER heroku
+EXPOSE 5000
 
-WORKDIR /
-EXPOSE ${TLS_PORT} $PORT
-
-CMD exec /gost -L mwss://:$TLS_PORT -L mws://:$PORT
+CMD gost -L mwss://:$TLS_PORT -L mws://:$PORT
