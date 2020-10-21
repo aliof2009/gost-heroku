@@ -4,4 +4,4 @@ RUN chmod +x /bin/gost
 RUN useradd -m heroku
 USER heroku
 EXPOSE 5000
-CMD gost -L mwss://:4433 -L mws://:$PORT
+CMD gost -L kcp+mwss://:4433
