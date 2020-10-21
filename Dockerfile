@@ -4,4 +4,4 @@ RUN chmod +x /bin/gost
 RUN useradd -m heroku
 USER heroku
 EXPOSE 5000
-CMD gost -L kcp+mws://:$PORT
+CMD gost -L kcp+mws://:$PORT?compression=true
